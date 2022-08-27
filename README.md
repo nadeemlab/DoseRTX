@@ -14,8 +14,6 @@
 </p>
 
 
-This library serves as a one-stop solution for analyzing datasets using clinically-interpretable radiomics (CIR) in cancer imaging. The primary motivation for this comes from our collaborators in radiology and radiation oncology inquiring about the importance of clinically-reported features in state-of-the-art deep learning malignancy/recurrence/treatment response prediction algorithms. Previous methods have performed such prediction tasks but without robust attribution to any clinically reported/actionable features (see extensive literature on sensitivity of attribution methods to hyperparameters). This motivated us to curate datasets by annotating clinically-reported features at voxel/vertex-level on public datasets (using our CMPB'21 [advanced mathmetical algorithms](https://github.com/choilab-jefferson/LungCancerScreeningRadiomics)) and relating these to prediction tasks (bypassing the “flaky” attribution schemes). With the release of these comprehensively-annotated datasets, we hope that previous malignancy prediction methods can also validate their explanations and provide clinically-actionable insights. We also provide strong end-to-end baselines for extracting these hard-to-compute clinically-reported features and using these in different prediction tasks. 
-
 ##Domain Knowledge Driven 3D Dose Prediction Using Moment-Based Loss Function [PMB'22]
 
 *Objective:To propose a novel moment-based loss function for predicting 3D dose distribution for the challenging conventional lung IMRT plans. The moment-based loss function is convex and differentiable and can easily incorporate clinical dose volume histogram (DVH) domain knowledge in any deep learning framework without computational overhead.*
@@ -116,8 +114,8 @@ Step 2.2: Divide datasets into subsets (Training, Validation, Testing)
 The following bar charts shows evaluation of different DVH metrics using model trained with MAE, (MAE+DVH) and (MAE+Moment) loss (as **reported in the paper**).
 
 
-(./images/MAEvsMom.png)
-(./images/DVHvsMom.png)
+![MAEvsMoment_image](./images/MAEvsMom.png)
+![MAEvsDVH_image](./images/DVHvsMom.png)
 ![Comparison of different metrics for (a) MAE vs (MAE + Moment) and (b) (MAE+ DVH) vs (MAE + Moment)
 losses. Y axis shows the relative improvement(in %) using (MAE+Moment) loss compared to MAE and (MAE+DVH)
 loss. The higher is always better. For statistical analysis, Wilcoxon signed-rank test was used and p = 0.05 was considered
