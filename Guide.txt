@@ -1,0 +1,25 @@
+Simple guide to run experiments similar to done for the RT Dose paper.
+Broad category of experiments include No Beam, Beam + MAE loss, and Beam + MAE + DVH Loss.
+These 3 experiments are done for both Manual and ECHO dose data.
+
+To run No-Beam experiment:
+1) File data/base_dataset.py 
+      line 221: ptv *= 60
+      For the with beam case we set the PTV area in the Beam to 60 but in case of no beam that'll have no effect
+      as we don't input the beam. So we set PTV to 60 directly (intead of binary 0/1 it's 0/60 now).
+2) File data/dosepred3d_dataset.py
+      lines 71/72 for training and lines 79/80 for testing.
+      We don't send Beam as an input so, here we can decide which inputs to concatenate to the nework as input.
+      Input A is CT and OAR is one-hot encoded OAR/PTV. 5 OAR, 1 PTV and 1 CT make total 7 channel input.
+3) File models/doseprediction3d_model.py
+      lines 44 & 46; 63 & 65; 100, 102 and 111
+      In these groups of lines we select which loss to use MAE or MAE + DVH. Uncomment the lines for DVH loss
+      if we want to use the latter. Finally, in line 111 add all the losses together if there are more than 1.
+4) File scripts/train_ct2dose3d.sh or test_ct2dose3d.sh
+      python train.py --dataroot ./datasets/msk-manual-3d-dvh-beamlet-dense-separate-ptv --netG unet_128 --name EXPERIMENT-NAME --model doseprediction3d --direction AtoB --lambda_L1 1 --dataset_mode dosepred3d --norm batch --batch_size 1 --pool_size 0 --display_port 8097 --lr 0.0002 --input_nc 7 --output_nc 1 --display_freq 10 --print_freq 1 --gpu_ids 0
+      
+      the "dataroot" points to training data which I have shared with Dr. Nadeem on the google drive for the project. "netG" defines which CNN model we want to train (file models/networks3d.py), we can implement more models here. "input_nc" will be 7 for NO-BEAM case and 8 for with beam case. other options like "display_freq" etc. you can look up what they do in files "options/base_options,train_options/test_options.py).
+      defaul display port is 8097 for visdom server. Once you install visdom, start the server and navigate to localhost.ocaldomain:8097 in your browser it will plot the losses which we have implemented.
+
+This covers about most of what we need to do various experiments. For with beam experiments we just need to to modify steps 1) and 2) and select input_nc to 8 in the train scripts. For selecting manual vs ECHO data for training we can change the "dataroot" for correct data (I have shared both ECHO/Manual training data). For selecting the loss function we need to modify step 3).
+      

@@ -1,0 +1,1 @@
+python3 train.py --dataroot ./datasets/msk-echo-3d-dvh-beamlet-sparse-separate-ptv --netG unet_128 --name LossTest --model doseprediction3d --direction AtoB --lambda_L1 1 --dataset_mode dosepred3d --norm batch --batch_size 1 --pool_size 0 --display_port 8097 --lr 0.0002 --input_nc 8 --output_nc 1 --display_freq 10 --print_freq 1 --gpu_ids 1

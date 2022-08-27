@@ -1,0 +1,1 @@
+python test.py --dataroot ./datasets/msk-echo-3d-dvh-beamlet-sparse-separate-ptv --netG unet_128 --name echoBeamMomLossgEUD246 --phase test --mode eval --model doseprediction3d --input_nc 8 --output_nc 1 --direction AtoB --dataset_mode dosepred3d --norm batch
