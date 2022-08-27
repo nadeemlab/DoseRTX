@@ -77,7 +77,7 @@ Step 2.1:
     LUNG1_dose_resampled.nrrd          - dose mapped to CT orginal resolution  
     LUNG1_PTV.nrrd    - PTV mask  
 	LUNG1_RTSTRUCTS.nrrd    - OAR mask
-- Output: Each case consists of four npy files (numpy) - 128x128x128 cubic image patch  
+- Output: Each case consists of six npy files (numpy) - 128x128x128 cubic image patch  
     CT.npy           - CT Image  
     dose.npy          - Actual dose  
     PTV.npy       - PTV mask  
