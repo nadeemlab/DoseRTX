@@ -9,7 +9,7 @@
     |
     <a href="#usage">Usage</a>
     |
-    <a href="https://github.com/nadeemlab/CIR/issues">Issues</a>
+    <a href="https://github.com/nadeemlab/DoseRTX/issues">Issues</a>
   </p>
 </p>
 
@@ -40,12 +40,13 @@ one-hot encoded and concatenated along the channel axis with CT and PTV input to
 
 ## Installation
 It is highly recommended to install dependencies in either a python virtual environment or anaconda environment. Instructions for python virtual environment:
+Install all the dependencies present in requirements.txt
 ```bash
 python3 -m venv venv
 source venv/bin/activate
 (venv) pip install requirements.txt
 ```
-Please refer to the this [link](https://github.com/facebookresearch/pytorch3d/blob/main/INSTALL.md#3-install-wheels-for-linux) for the details of pytorch3d installation.
+Please use this [link](https://github.com/facebookresearch/pytorch3d/blob/main/INSTALL.md#3-install-wheels-for-linux) for the details of pytorch3d installation.
 
 ## Usage
 ```bash
