@@ -1,7 +1,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-    <h1 align="center"><strong>Domain Knowledge Driven 3D Dose Prediction Using Moment-Based Loss Function</strong></h1>
+    <h2 align="center"><strong>Domain Knowledge Driven 3D Dose Prediction Using Moment-Based Loss Function</strong></h2>
     <p align="center">
     <a href="https://arxiv.org/pdf/2207.03414.pdf">PMB'22 Paper</a>
     |
