@@ -95,20 +95,21 @@ Step 2.2: Divide datasets into subsets (Training, Validation, Testing)
 
 
 ### Running Pre-trained Models
+Donload the pretrained model from the links below and put them in checkpoints folder
 1. Dose prediction using (MAE) loss is available [here](https://zenodo.org/record/6762573)
 ```bash
     tar xjvf latest_net_G.tar.bz2
-    python3 test.py --dataroot test_data_directory --netG stand_unet --name manualNoBeam290Patients128_128_128_MAELossStandUNET --phase test --mode eval --model doseprediction3d --input_nc 7 --output_nc 1 --direction AtoB --dataset_mode dosepred3d --norm batch --gpu_ids 1
+    python3 test.py --dataroot test_data_directory --netG stand_unet --name MAE_loss --phase test --mode eval --model doseprediction3d --input_nc 7 --output_nc 1 --direction AtoB --dataset_mode dosepred3d --norm batch --gpu_ids 1
 ```
 2. Dose prediction using (MAE+DVH) loss is available [here](https://zenodo.org/record/6762573)
 ```bash
     tar xjvf latest_net_G.tar.bz2
-    python3 test.py --dataroot test_data_directory --netG stand_unet --name manualNoBeam290Patients128_128_128_DVHLossStandUNET --phase test --mode eval --model doseprediction3d --input_nc 7 --output_nc 1 --direction AtoB --dataset_mode dosepred3d --norm batch --gpu_ids 1
+    python3 test.py --dataroot test_data_directory --netG stand_unet --name MAE_DVH_loss --phase test --mode eval --model doseprediction3d --input_nc 7 --output_nc 1 --direction AtoB --dataset_mode dosepred3d --norm batch --gpu_ids 1
 ```
 3. Dose prediction using (MAE+DVH) loss is available [here](https://zenodo.org/record/6762573)
 ```bash
     tar xjvf latest_net_G.tar.bz2
-    python3 test.py --dataroot test_data_directory --netG stand_unet --name manualNoBeam290Patients128_128_128_MomLossStandUNET --phase test --mode eval --model doseprediction3d --input_nc 7 --output_nc 1 --direction AtoB --dataset_mode dosepred3d --norm batch --gpu_ids 1
+    python3 test.py --dataroot test_data_directory --netG stand_unet --name MAE_Moment_loss --phase test --mode eval --model doseprediction3d --input_nc 7 --output_nc 1 --direction AtoB --dataset_mode dosepred3d --norm batch --gpu_ids 1
 ```
 
 ### Reproducibility [PMB'22]
