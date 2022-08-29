@@ -115,6 +115,8 @@ Step 2.2: Divide datasets into subsets (Training, Validation, Testing)
 The following bar charts shows evaluation of different DVH metrics using model trained with MAE, (MAE+DVH) and (MAE+Moment) loss (as **reported in the paper**).
 
 
+<img src="./images/MAEvsMom.png" alt="MAEvsMoment_image" width="200"/>
+<img src="./images/DVHvsMom.png" alt="DVHvsMoment_image" width="200"/>
 ![MAEvsMoment_image](./images/MAEvsMom.png)
 ![MAEvsDVH_image](./images/DVHvsMom.png)
 ![Comparison of different metrics for (a) MAE vs (MAE + Moment) and (b) (MAE+ DVH) vs (MAE + Moment)
