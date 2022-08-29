@@ -14,7 +14,7 @@
 </p>
 
 
-##Domain Knowledge Driven 3D Dose Prediction Using Moment-Based Loss Function [PMB'22]##
+## Domain Knowledge Driven 3D Dose Prediction Using Moment-Based Loss Function [PMB'22]
 
 *Objective:To propose a novel moment-based loss function for predicting 3D dose distribution for the challenging conventional lung IMRT plans. The moment-based loss function is convex and differentiable and can easily incorporate clinical dose volume histogram (DVH) domain knowledge in any deep learning framework without computational overhead.*
 *Approach: We used a large dataset of 360 (240 for training, 50 for validation and 70 for testing) conventional lung patients with 2Gy × 30 fractions to train the deep learning (DL) model using clinically treated plans at our institution. We trained a UNet like CNN architecture using computed tomography (CT), planning target volume (PTV) and organ-at-risk contours (OAR) as input to infer corresponding voxel-wise 3D dose distribution. We evaluated three different loss functions: (1) The popular Mean Absolute Error (MAE) Loss, (2) the recently developed MAE + DVH Loss, and (3) the proposed MAE + Moments Loss. The quality of the predictions was compared using different DVH metrics as well as dose-score and DVH-score, recently introduced by the AAPM knowledge-based planning grand challenge*
@@ -73,18 +73,18 @@ Step 2.0: Generate nrrd files using data preprocess
 
 Step 2.1: 
 - Input: Each case consists of five nrrd files (SimpleITK)  
-    LUNG1_CT.nrrd                - CT Image  
-    LUNG1_dose.nrrd              - dose in orginal resolution
-    LUNG1_dose_resampled.nrrd          - dose mapped to CT orginal resolution  
-    LUNG1_PTV.nrrd    - PTV mask  
-	LUNG1_RTSTRUCTS.nrrd    - OAR mask
+    1. LUNG1_CT.nrrd                - CT Image  
+    2. LUNG1_dose.nrrd              - dose in orginal resolution
+    3. LUNG1_dose_resampled.nrrd          - dose mapped to CT orginal resolution  
+    4. LUNG1_PTV.nrrd    - PTV mask  
+	5. LUNG1_RTSTRUCTS.nrrd    - OAR mask
 - Output: Each case consists of six npy files (numpy) - 128x128x128 cubic image patch  
-    CT.npy           - CT Image  
-    dose.npy          - Actual dose  
-    PTV.npy       - PTV mask  
-    OAR.npy        - OAR mask
-	hist.npy        - volume at or above a given dose threshold value
-	bins.npy        - dose thresold values
+    1. CT.npy           - CT Image  
+    2. dose.npy          - Actual dose  
+    3. PTV.npy       - PTV mask  
+    4. OAR.npy        - OAR mask
+	5. hist.npy        - volume at or above a given dose threshold value
+	6. bins.npy        - dose thresold values
 - Sampled Pre-processed data is available for TCIA lung patients [here](https://zenodo.org/record/6762573).
 ```bash
    tar xjvf TCIA_Lung_Dataset.tar.bz2
