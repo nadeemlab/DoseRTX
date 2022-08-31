@@ -117,15 +117,11 @@ statistically significant.*
 If you find our work useful in your research or if you use parts of this code or the dataset, please cite the following papers:
 ```
 @article{jhanwar2022domain,
-  title={Domain Knowledge Driven 3D Dose Prediction Using Moment-Based Loss Function},
+  title={Domain knowledge driven 3D dose prediction using moment-based loss function},
   author={Jhanwar, Gourav and Dahiya, Navdeep and Ghahremani, Parmida and Zarepisheh, Masoud and Nadeem, Saad},
-  journal={arXiv preprint arXiv:2207.03414},
-  year={2022}
+  journal={Physics in Medicine \& Biology},
+  year={2022},
+  publisher={IOP Publishing}
 }
-@article{dahiya2021deep,
-  title={Deep Learning 3D Dose Prediction for Conventional Lung IMRT Using Consistent/Unbiased Automated Plans},
-  author={Dahiya, Navdeep and Jhanwar, Gourav and Yezzi, Anthony and Zarepisheh, Masoud and Nadeem, Saad},
-  journal={arXiv preprint arXiv:2106.03705},
-  year={2021}
-}
+
 ```
