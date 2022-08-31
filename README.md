@@ -51,6 +51,11 @@ Step 3: Test the trained model. `python3 test.py --dataroot test_data_directory 
 ### Data Pre-processing
 Pre-processed data will be saved in out_dir directory.
 
+Step 1: Provide input directory of patient DICOM. DICOM for the sample patients are available [here](https://zenodo.org/record/6762573)
+```bash
+tar -xvf LUNG1-002.tar.gz
+```
+
 Step 2.0: Generate nrrd files using data preprocess
 
 - Pre-processed data is available [here](https://zenodo.org/record/6762573).
