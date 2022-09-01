@@ -32,7 +32,7 @@ Install all the dependencies present in requirements.txt
 ```bash
 python3 -m venv venv
 source venv/bin/activate
-(venv) pip install requirements.txt
+(venv) pip install -r requirements.txt
 ```
 Please use this [link](https://github.com/facebookresearch/pytorch3d/blob/main/INSTALL.md#3-install-wheels-for-linux) for the details of pytorch3d installation.
 
