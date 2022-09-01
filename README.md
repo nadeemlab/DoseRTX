@@ -46,7 +46,7 @@ Step 1: You have to first perform data pre-processing using pre-process data mod
 
 Step 2: Now execute `python train.py --dataroot train_data_directory --netG stand_unet --name planName --model doseprediction3d --direction AtoB --lambda_L1 1 --dataset_mode dosepred3d --norm batch --batch_size 1 --pool_size 0 --display_port 8097 --lr 0.0002 --input_nc 7 --output_nc 1 --display_freq 10 --print_freq 1 --gpu_ids 0,1,2` and this will start training the network.
 
-Step 3: Test the trained model. `python3 test.py --dataroot test_data_directory --netG stand_unet --name planName --phase test --mode eval --model doseprediction3d --input_nc 7 --output_nc 1 --direction AtoB --dataset_mode dosepred3d --norm batch --gpu_ids 1`
+Step 3: Test the trained model. `python test.py --dataroot test_data_directory --netG stand_unet --name planName --phase test --mode eval --model doseprediction3d --input_nc 7 --output_nc 1 --direction AtoB --dataset_mode dosepred3d --norm batch --gpu_ids 1`
 
 ### Data Pre-processing
 Pre-processed data will be saved in out_dir directory.
@@ -89,17 +89,17 @@ Download the pretrained model from the links below and put them in checkpoints f
 1. Dose prediction using (MAE) loss is available [here](https://zenodo.org/record/6762573)
 ```bash
     tar xjvf MAE_loss.tar.bz2
-    python3 test.py --dataroot test_data_directory --netG stand_unet --name MAE_loss --phase test --mode eval --model doseprediction3d --input_nc 7 --output_nc 1 --direction AtoB --dataset_mode dosepred3d --norm batch --gpu_ids 1
+    python test.py --dataroot test_data_directory --netG stand_unet --name MAE_loss --phase test --mode eval --model doseprediction3d --input_nc 7 --output_nc 1 --direction AtoB --dataset_mode dosepred3d --norm batch --gpu_ids 1
 ```
 2. Dose prediction using (MAE + DVH) loss is available [here](https://zenodo.org/record/6762573)
 ```bash
     tar xjvf MAE_DVH_loss.tar.bz2
-    python3 test.py --dataroot test_data_directory --netG stand_unet --name MAE_DVH_loss --phase test --mode eval --model doseprediction3d --input_nc 7 --output_nc 1 --direction AtoB --dataset_mode dosepred3d --norm batch --gpu_ids 1
+    python test.py --dataroot test_data_directory --netG stand_unet --name MAE_DVH_loss --phase test --mode eval --model doseprediction3d --input_nc 7 --output_nc 1 --direction AtoB --dataset_mode dosepred3d --norm batch --gpu_ids 1
 ```
 3. Dose prediction using (MAE + Moment) loss is available [here](https://zenodo.org/record/6762573)
 ```bash
     tar xjvf MAE_Moment_loss.tar.bz2
-    python3 test.py --dataroot test_data_directory --netG stand_unet --name MAE_Moment_loss --phase test --mode eval --model doseprediction3d --input_nc 7 --output_nc 1 --direction AtoB --dataset_mode dosepred3d --norm batch --gpu_ids 1
+    python test.py --dataroot test_data_directory --netG stand_unet --name MAE_Moment_loss --phase test --mode eval --model doseprediction3d --input_nc 7 --output_nc 1 --direction AtoB --dataset_mode dosepred3d --norm batch --gpu_ids 1
 ```
 
 ### Results [PMB'22]
