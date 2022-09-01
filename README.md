@@ -53,14 +53,14 @@ Pre-processed data will be saved in out_dir directory.
 
 Step 1: Provide input directory of patient DICOM. DICOM for the sample patients are available [here](https://zenodo.org/record/6762573)
 ```bash
-tar -xvf LUNG1-002.tar.gz
+tar -xjvf sample_patient_data.tar.bz2
 ```
 
 Step 2.0: Generate nrrd files using data preprocess
 
 - Pre-processed data is available [here](https://zenodo.org/record/6762573).
 ```bash
-   tar xjvf TCIA_Lung_Dataset.tar.bz2
+   tar xjvf sample_nrrd_data.tar.bz2
 ```
 
 Step 2.1: 
@@ -79,7 +79,7 @@ Step 2.1:
 	6. bins.npy        - dose thresold values
 - Sampled Pre-processed data is available for TCIA lung patients [here](https://zenodo.org/record/6762573).
 ```bash
-   tar xjvf TCIA_Lung_Dataset.tar.bz2
+   tar xjvf sample_processed_data.tar.bz2
 ```
   
 Step 2.2: Divide datasets into subsets (Training, Validation, Testing)
@@ -88,17 +88,17 @@ Step 2.2: Divide datasets into subsets (Training, Validation, Testing)
 Download the pretrained model from the links below and put them in checkpoints folder
 1. Dose prediction using (MAE) loss is available [here](https://zenodo.org/record/6762573)
 ```bash
-    tar xjvf latest_net_G.tar.bz2
+    tar xjvf MAE_loss.tar.bz2
     python3 test.py --dataroot test_data_directory --netG stand_unet --name MAE_loss --phase test --mode eval --model doseprediction3d --input_nc 7 --output_nc 1 --direction AtoB --dataset_mode dosepred3d --norm batch --gpu_ids 1
 ```
 2. Dose prediction using (MAE + DVH) loss is available [here](https://zenodo.org/record/6762573)
 ```bash
-    tar xjvf latest_net_G.tar.bz2
+    tar xjvf MAE_DVH_loss.tar.bz2
     python3 test.py --dataroot test_data_directory --netG stand_unet --name MAE_DVH_loss --phase test --mode eval --model doseprediction3d --input_nc 7 --output_nc 1 --direction AtoB --dataset_mode dosepred3d --norm batch --gpu_ids 1
 ```
 3. Dose prediction using (MAE + Moment) loss is available [here](https://zenodo.org/record/6762573)
 ```bash
-    tar xjvf latest_net_G.tar.bz2
+    tar xjvf MAE_Moment_loss.tar.bz2
     python3 test.py --dataroot test_data_directory --netG stand_unet --name MAE_Moment_loss --phase test --mode eval --model doseprediction3d --input_nc 7 --output_nc 1 --direction AtoB --dataset_mode dosepred3d --norm batch --gpu_ids 1
 ```
 
@@ -108,11 +108,10 @@ The following bar charts shows evaluation of different DVH metrics using models 
 
 <img src="./images/MAEvsMom.png" alt="MAEvsMoment_image" width="400"/>  <img src="./images/DVHvsMom.png" alt="DVHvsMoment_image" width="400"/>
 
-*Comparison of different metrics for (a) MAE vs (MAE + Moment) and (b) (MAE+ DVH) vs (MAE + Moment)
-losses. Y axis shows the relative improvement(in %) using (MAE+Moment) loss compared to MAE and (MAE+DVH)
-loss. The higher is always better. For statistical analysis, Wilcoxon signed-rank test was used and p = 0.05 was considered
-statistically significant.*
+*Comparison of different metrics for (a) MAE vs (MAE + Moment) and (b) (MAE+ DVH) vs (MAE + Moment) losses. Y axis shows the relative improvement(in %) using (MAE+Moment) loss compared to MAE and (MAE+DVH) loss. The higher is always better. For statistical analysis, Wilcoxon signed-rank test was used and p = 0.05 was considered statistically significant.*
 
+We also compare DVH using different loss function for the sample patient
+<img src="./images/LUNG1-005.png" alt="LUNG1-005DVH" width="600"/>
 ## Reference
 If you find our work useful in your research or if you use parts of this code or the dataset, please cite the following papers:
 ```
