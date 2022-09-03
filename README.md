@@ -58,7 +58,7 @@ tar -xjvf sample_patient_data.tar.bz2
 
 Step 2.0: Generate nrrd files using data preprocess
 
-- Pre-processed data is available [here](https://zenodo.org/record/6762573).
+- Pre-processed data is available [here](https://zenodo.org/record/7036132).
 ```bash
    tar xjvf sample_nrrd_data.tar.bz2
 ```
@@ -86,17 +86,17 @@ Step 2.2: Divide datasets into subsets (Training, Validation, Testing)
 
 ### Running Pre-trained Models
 Download the pretrained model from the links below and put them in checkpoints folder
-1. Dose prediction using (MAE) loss is available [here](https://zenodo.org/record/6762573)
+1. Dose prediction using (MAE) loss is available [here](https://zenodo.org/record/7036132)
 ```bash
     tar xjvf MAE_loss.tar.bz2
     python test.py --dataroot test_data_directory --netG stand_unet --name MAE_loss --phase test --mode eval --model doseprediction3d --input_nc 7 --output_nc 1 --direction AtoB --dataset_mode dosepred3d --norm batch --gpu_ids 1
 ```
-2. Dose prediction using (MAE + DVH) loss is available [here](https://zenodo.org/record/6762573)
+2. Dose prediction using (MAE + DVH) loss is available [here](https://zenodo.org/record/7036132)
 ```bash
     tar xjvf MAE_DVH_loss.tar.bz2
     python test.py --dataroot test_data_directory --netG stand_unet --name MAE_DVH_loss --phase test --mode eval --model doseprediction3d --input_nc 7 --output_nc 1 --direction AtoB --dataset_mode dosepred3d --norm batch --gpu_ids 1
 ```
-3. Dose prediction using (MAE + Moment) loss is available [here](https://zenodo.org/record/6762573)
+3. Dose prediction using (MAE + Moment) loss is available [here](https://zenodo.org/record/7036132)
 ```bash
     tar xjvf MAE_Moment_loss.tar.bz2
     python test.py --dataroot test_data_directory --netG stand_unet --name MAE_Moment_loss --phase test --mode eval --model doseprediction3d --input_nc 7 --output_nc 1 --direction AtoB --dataset_mode dosepred3d --norm batch --gpu_ids 1
