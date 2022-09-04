@@ -111,7 +111,7 @@ The following bar charts shows evaluation of different DVH metrics using models 
 *Comparison of different metrics for (a) MAE vs (MAE + Moment) and (b) (MAE+ DVH) vs (MAE + Moment) losses. Y axis shows the relative improvement(in %) using (MAE+Moment) loss compared to MAE and (MAE+DVH) loss. The higher is always better. For statistical analysis, Wilcoxon signed-rank test was used and p = 0.05 was considered statistically significant.*
 
 We also compare DVH using different loss function for the sample patient.  As can been seen, in general, the prediction generated
-with (MAE + Moment) loss resembles the actual ground-truth dose more than the other model, for thisparticular patient, especially for Cord, Esophagus, Heart, Lung_R and PTV
+with (MAE + Moment) loss resembles the actual ground-truth dose more than the other model, for this particular patient, especially for Cord, Esophagus, Heart, Lung_R and PTV
 <img src="./images/LUNG1-005.png" alt="LUNG1-005DVH" width="600"/>
 ## Reference
 If you find our work useful in your research or if you use parts of this code or the dataset, please cite the following papers:
