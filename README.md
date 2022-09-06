@@ -82,7 +82,7 @@ Step 2.1:
    tar xjvf sample_processed_data.tar.bz2
 ```
   
-Step 2.2: Divide datasets into subsets (Training, Validation, Testing). e.g. training data should be in your_data_directory/train. testing data should be in your_data_directory/test
+Step 2.2: Divide datasets into subsets (Training, Validation, Testing). e.g. Training data should be in *your_data_directory/train*. Testing data should be in *your_data_directory/test*
 
 ### Running Pre-trained Models
 Download the pretrained model from the links below and put them in checkpoints folder
