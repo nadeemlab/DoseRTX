@@ -77,12 +77,12 @@ Step 2.1:
     4. OAR.npy        - OAR mask
 	5. hist.npy        - volume at or above a given dose threshold value
 	6. bins.npy        - dose thresold values
-- Sampled Pre-processed data is available for TCIA lung patients [here](https://zenodo.org/record/6762573).
+- Sampled Pre-processed data is available for TCIA lung patients [here](https://zenodo.org/record/7036132).
 ```bash
    tar xjvf sample_processed_data.tar.bz2
 ```
   
-Step 2.2: Divide datasets into subsets (Training, Validation, Testing)
+Step 2.2: Divide datasets into subsets (Training, Validation, Testing). e.g. training data should be in your_data_directory/train. testing data should be in your_data_directory/test
 
 ### Running Pre-trained Models
 Download the pretrained model from the links below and put them in checkpoints folder
