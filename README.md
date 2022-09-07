@@ -77,12 +77,12 @@ Step 2.1:
     4. OAR.npy        - OAR mask
 	5. hist.npy        - volume at or above a given dose threshold value
 	6. bins.npy        - dose thresold values
-- Sampled Pre-processed data is available for TCIA lung patients [here](https://zenodo.org/record/7036132).
+- Sampled Pre-processed data is available for TCIA lung patients [here](https://zenodo.org/record/6762573).
 ```bash
    tar xjvf sample_processed_data.tar.bz2
 ```
   
-Step 2.2: Divide datasets into subsets (Training, Validation, Testing). e.g. Training data should be in *your_data_directory/train*. Testing data should be in *your_data_directory/test*
+Step 2.2: Divide datasets into subsets (Training, Validation, Testing)
 
 ### Running Pre-trained Models
 Download the pretrained model from the links below and put them in checkpoints folder
@@ -101,6 +101,23 @@ Download the pretrained model from the links below and put them in checkpoints f
     tar xjvf MAE_Moment_loss.tar.bz2
     python test.py --dataroot test_data_directory --netG stand_unet --name MAE_Moment_loss --phase test --mode eval --model doseprediction3d --input_nc 7 --output_nc 1 --direction AtoB --dataset_mode dosepred3d --norm batch --gpu_ids 1
 ```
+
+### Docker
+We provide a Dockerfile that can be used to run the models inside a container.
+First, you need to install the [Docker Engine](https://docs.docker.com/engine/install/ubuntu/). For using GPU's you also need to install [NVIDIA container toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker). After installing the Docker, you need to follow these steps:
+
+1. Clone this repository.
+2. To create a docker image from the docker file; from top-level repository directory:
+```
+cd docker; ./build.sh
+```
+* Note: You may need to modify lines 1, and 12 of Dockerfile to match your systems' cuda version.
+3. Upon successful docker image creation:
+* Pre-built docker image including sample data and pre-trained models is available [here](https://hub.docker.com/r/choilab/cir) (CHANGE THIS LINK)
+```
+docker run --gpus all -it nadeemlab/dosertx:latest /bin/bash
+```
+4. Then run `python test.py --dataroot sample_processed_data --netG stand_unet --name MAE_Moment_loss --phase test --mode eval --model doseprediction3d --input_nc 7 --output_nc 1 --direction AtoB --dataset_mode dosepred3d --norm batch --gpu_ids 1` or `python test.py --dataroot sample_processed_data --netG stand_unet --name MAE_loss --phase test --mode eval --model doseprediction3d --input_nc 7 --output_nc 1 --direction AtoB --dataset_mode dosepred3d --norm batch --gpu_ids 1` or `python test.py --dataroot sample_processed_data --netG stand_unet --name MAE_DVH_loss --phase test --mode eval --model doseprediction3d --input_nc 7 --output_nc 1 --direction AtoB --dataset_mode dosepred3d --norm batch --gpu_ids 1` for testing either of the three pre-trained models on the sample patient data. The resulting dose prediction will be in the ./results directory.
 
 ### Results [PMB'22]
 The following bar charts shows evaluation of different DVH metrics using models trained with MAE, (MAE + DVH), and (MAE+Moment) losses (as **reported in the paper**).
