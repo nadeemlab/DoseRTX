@@ -113,7 +113,7 @@ cd docker; ./build.sh
 ```
 * Note: You may need to modify lines 1, and 12 of Dockerfile to match your systems' cuda version.
 3. Upon successful docker image creation:
-* Pre-built docker image including sample data and pre-trained models is available [here](https://hub.docker.com/r/choilab/cir) (CHANGE THIS LINK)
+* Pre-built docker image including sample data and pre-trained models is available [here](https://hub.docker.com/r/nadeemlab/dosertx) 
 ```
 docker run --gpus all -it nadeemlab/dosertx:latest /bin/bash
 ```
