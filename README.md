@@ -119,12 +119,12 @@ docker run --gpus all -it nadeemlab/dosertx:latest /bin/bash
 ```
 4. Then run `python test.py --dataroot sample_processed_data --netG stand_unet --name MAE_Moment_loss --phase test --mode eval --model doseprediction3d --input_nc 7 --output_nc 1 --direction AtoB --dataset_mode dosepred3d --norm batch --gpu_ids 1` or  
    
-  `python test.py --dataroot sample_processed_data --netG stand_unet --name MAE_loss --phase test --mode eval --model doseprediction3d --input_nc 7 --output_nc 1 --direction AtoB --dataset_mode dosepred3d --norm batch --gpu_ids 1` or  
+   `python test.py --dataroot sample_processed_data --netG stand_unet --name MAE_loss --phase test --mode eval --model doseprediction3d --input_nc 7 --output_nc 1 --direction AtoB --dataset_mode dosepred3d --norm batch --gpu_ids 1` or  
   
-  `python test.py --dataroot sample_processed_data --netG stand_unet --name MAE_DVH_loss --phase test --mode eval --model doseprediction3d --input_nc 7 --output_nc 1 --direction AtoB --dataset_mode dosepred3d --norm batch --gpu_ids 1`  
+   `python test.py --dataroot sample_processed_data --netG stand_unet --name MAE_DVH_loss --phase test --mode eval --model doseprediction3d --input_nc 7 --output_nc 1 --direction AtoB --dataset_mode dosepred3d --norm batch --gpu_ids 1`  
   
 
-  for testing either of the three pre-trained models on the sample patient data. The resulting dose prediction will be in the ./results directory.
+   for testing either of the three pre-trained models on the sample patient data. The resulting dose prediction will be in the ./results directory.
 
 ### Results [PMB'22]
 The following bar charts shows evaluation of different DVH metrics using models trained with MAE, (MAE + DVH), and (MAE+Moment) losses (as **reported in the paper**).
