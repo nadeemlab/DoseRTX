@@ -47,19 +47,19 @@ git clone --recursive git@github.com:nadeemlab/DoseRTX.git
 ```
 High level usage instructions are given below. Detailed instructions at each step can be found in the respective subsections.
 
-Step 1: You have to first perform data pre-processing using the pre-process data module, as follows: 
+Step 1: You have to first perform data pre-processing using the pre-process data module by providing your dicom_input_dir and data_directory, as follows: 
 ```bash
-python data_preprocess.py --in_dir dicom_input_dir --out_dir output_dir
+python data_preprocess.py --in_dir dicom_input_dir --out_dir data_directory
 ```
 
 Step 2: Now execute the following command which will start the training:
 ```bash
-python train.py --dataroot train_data_directory --netG stand_unet --name planName --model doseprediction3d --direction AtoB --lambda_L1 1 --dataset_mode dosepred3d --norm batch --batch_size 1 --pool_size 0 --display_port 8097 --lr 0.0002 --input_nc 7 --output_nc 1 --display_freq 10 --print_freq 1 --gpu_ids 0,1,2
+python train.py --dataroot data_directory --netG stand_unet --name planName --model doseprediction3d --direction AtoB --lambda_L1 1 --dataset_mode dosepred3d --norm batch --batch_size 1 --pool_size 0 --display_port 8097 --lr 0.0002 --input_nc 7 --output_nc 1 --display_freq 10 --print_freq 1 --gpu_ids 0,1,2
 ```
 
 Step 3: Test the trained model:
 ```bash
-python test.py --dataroot test_data_directory --netG stand_unet --name planName --phase test --mode eval --model doseprediction3d --input_nc 7 --output_nc 1 --direction AtoB --dataset_mode dosepred3d --norm batch --gpu_ids 1
+python test.py --dataroot data_directory --netG stand_unet --name planName --phase test --mode eval --model doseprediction3d --input_nc 7 --output_nc 1 --direction AtoB --dataset_mode dosepred3d --norm batch --gpu_ids 1
 ```
 
 ### Data Pre-processing
@@ -96,24 +96,24 @@ Step 2.1:
    tar xjvf sample_processed_data.tar.bz2
 ```
   
-Step 2.2: Divide datasets into subsets (Training, Validation, Testing)
+Step 2.2: Divide datasets into subsets (Training, Validation, Testing). e.g. train data should be in data_directory/train directory. test data should be in data_directory/test directory
 
 ### Running Pre-trained Models
-Download the pretrained model from the links below and put them in checkpoints folder
+Download the pretrained model from the links below and put them in checkpoints directory. e.g. ./checkpoints/MAE_loss
 1. Dose prediction using (MAE) loss is available [here](https://zenodo.org/record/7036132)
 ```bash
     tar xjvf MAE_loss.tar.bz2
-    python test.py --dataroot test_data_directory --netG stand_unet --name MAE_loss --phase test --mode eval --model doseprediction3d --input_nc 7 --output_nc 1 --direction AtoB --dataset_mode dosepred3d --norm batch --gpu_ids 1
+    python test.py --dataroot data_directory --netG stand_unet --name MAE_loss --phase test --mode eval --model doseprediction3d --input_nc 7 --output_nc 1 --direction AtoB --dataset_mode dosepred3d --norm batch --gpu_ids 1
 ```
 2. Dose prediction using (MAE + DVH) loss is available [here](https://zenodo.org/record/7036132)
 ```bash
     tar xjvf MAE_DVH_loss.tar.bz2
-    python test.py --dataroot test_data_directory --netG stand_unet --name MAE_DVH_loss --phase test --mode eval --model doseprediction3d --input_nc 7 --output_nc 1 --direction AtoB --dataset_mode dosepred3d --norm batch --gpu_ids 1
+    python test.py --dataroot data_directory --netG stand_unet --name MAE_DVH_loss --phase test --mode eval --model doseprediction3d --input_nc 7 --output_nc 1 --direction AtoB --dataset_mode dosepred3d --norm batch --gpu_ids 1
 ```
 3. Dose prediction using (MAE + Moment) loss is available [here](https://zenodo.org/record/7036132)
 ```bash
     tar xjvf MAE_Moment_loss.tar.bz2
-    python test.py --dataroot test_data_directory --netG stand_unet --name MAE_Moment_loss --phase test --mode eval --model doseprediction3d --input_nc 7 --output_nc 1 --direction AtoB --dataset_mode dosepred3d --norm batch --gpu_ids 1
+    python test.py --dataroot data_directory --netG stand_unet --name MAE_Moment_loss --phase test --mode eval --model doseprediction3d --input_nc 7 --output_nc 1 --direction AtoB --dataset_mode dosepred3d --norm batch --gpu_ids 1
 ```
 
 ## Docker
