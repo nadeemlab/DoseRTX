@@ -9,6 +9,10 @@
     |
     <a href="#usage">Usage</a>
     |
+    <a href="#docker">Docker</a>
+    |
+    <a href="#google-colab">Google CoLab</a>
+    |
     <a href="https://github.com/nadeemlab/DoseRTX/issues">Issues</a>
   </p>
 </p>
@@ -27,8 +31,9 @@ We used 360 randomly selected lung cancer patients treated with conventional IMR
 ![architecure_image](./images/network_arch_1.png)*We train a Unet like CNN architecture to output the voxel-wise 3D dose prediction corresponding to an input comprising of 3D CT/contours which are concatenated along the channel dimension. The network follows a common encoder-decoder style architecture which is composed of a series of layers which progressively downsample the input (encoder) using max pooling operation, until a bottleneck layer, where the process is reversed (decoder). Additionally, Unet-like skip connections are added between corresponding layers of encoder and decoder. This is done to share low-level information between the encoder and decoder counterparts. The network (Figure 2) uses Convolution-BatchNorm-ReLU-Dropout as a block to perform series of convolution. Dropout is used with a dropout rate of 50%. Maxpool is used to downsample the image by 2 in each spatial level of encoder. All the convolutions in the encoder are 3×3×3 3D spatial filters with a stride of 1 in all 3 directions. In the decoder we use trilinear upsampling followed by regular 2 × 2 × 2 stride 1 convolution. The last layer in the decoder maps its input to a one channel output (1283, 1).*
 
 ## Installation
-It is highly recommended to install dependencies in either a python virtual environment or anaconda environment. Instructions for python virtual environment:
-Install all the dependencies present in requirements.txt
+We highly recommend installing dependencies in either a python virtual environment or anaconda environment. Instructions for python virtual environment:
+
+Install all the dependencies present in requirements.txt:
 ```bash
 python3 -m venv venv
 source venv/bin/activate
@@ -40,13 +45,22 @@ Please use this [link](https://github.com/facebookresearch/pytorch3d/blob/main/I
 ```bash
 git clone --recursive git@github.com:nadeemlab/DoseRTX.git
 ```
-High level usage instructions are detailed below. Detailed instructions at each step, including running pre-trained models, are described in following subsections.
+High level usage instructions are given below. Detailed instructions at each step can be found in the respective subsections.
 
-Step 1: You have to first perform data pre-processing using pre-process data module. `python data_preprocess.py --in_dir dicom_input_dir --out_dir output_dir `
+Step 1: You have to first perform data pre-processing using the pre-process data module, as follows: 
+```bash
+python data_preprocess.py --in_dir dicom_input_dir --out_dir output_dir
+```
 
-Step 2: Now execute `python train.py --dataroot train_data_directory --netG stand_unet --name planName --model doseprediction3d --direction AtoB --lambda_L1 1 --dataset_mode dosepred3d --norm batch --batch_size 1 --pool_size 0 --display_port 8097 --lr 0.0002 --input_nc 7 --output_nc 1 --display_freq 10 --print_freq 1 --gpu_ids 0,1,2` and this will start training the network.
+Step 2: Now execute the following command which will start the training:
+```bash
+python train.py --dataroot train_data_directory --netG stand_unet --name planName --model doseprediction3d --direction AtoB --lambda_L1 1 --dataset_mode dosepred3d --norm batch --batch_size 1 --pool_size 0 --display_port 8097 --lr 0.0002 --input_nc 7 --output_nc 1 --display_freq 10 --print_freq 1 --gpu_ids 0,1,2
+```
 
-Step 3: Test the trained model. `python test.py --dataroot test_data_directory --netG stand_unet --name planName --phase test --mode eval --model doseprediction3d --input_nc 7 --output_nc 1 --direction AtoB --dataset_mode dosepred3d --norm batch --gpu_ids 1`
+Step 3: Test the trained model:
+```bash
+python test.py --dataroot test_data_directory --netG stand_unet --name planName --phase test --mode eval --model doseprediction3d --input_nc 7 --output_nc 1 --direction AtoB --dataset_mode dosepred3d --norm batch --gpu_ids 1
+```
 
 ### Data Pre-processing
 Pre-processed data will be saved in out_dir directory.
@@ -102,8 +116,8 @@ Download the pretrained model from the links below and put them in checkpoints f
     python test.py --dataroot test_data_directory --netG stand_unet --name MAE_Moment_loss --phase test --mode eval --model doseprediction3d --input_nc 7 --output_nc 1 --direction AtoB --dataset_mode dosepred3d --norm batch --gpu_ids 1
 ```
 
-### Docker
-We provide a Dockerfile that can be used to run the models inside a container.
+## Docker
+We also provide a Dockerfile that can be used to run the models inside a container.
 First, you need to install the [Docker Engine](https://docs.docker.com/engine/install/ubuntu/). For using GPU's you also need to install [NVIDIA container toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker). After installing the Docker, you need to follow these steps:
 
 1. Clone this repository.
@@ -126,7 +140,10 @@ docker run --gpus all -it nadeemlab/dosertx:latest /bin/bash
 
    for testing either of the three pre-trained models on the sample patient data. The resulting dose prediction will be in the ./results directory.
 
-### Results [PMB'22]
+## Google CoLab:
+If you don't have access to GPU or appropriate hardware, we have also created [Google CoLab project](https://colab.research.google.com/drive/1GFa-8AESF2hu9SnqGqAxoH5MvdU-OFNf) for your convenience. Please follow the steps in the provided notebook to install the requirements and run the training and testing scripts. All the libraries and pretrained models have already been set up there. The user can directly run DoseRTX on their dataset or the provided sample data using the instructions given in the Google CoLab project. 
+
+## Results [PMB'22]
 The following bar charts shows evaluation of different DVH metrics using models trained with MAE, (MAE + DVH), and (MAE+Moment) losses (as **reported in the paper**).
 
 
