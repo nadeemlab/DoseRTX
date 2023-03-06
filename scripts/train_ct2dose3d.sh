@@ -1,0 +1,2 @@
+set -ex
+python train.py --dataroot ./datasets/msk-manual-3d-dvh-beamlet-dense-separate-ptv --netG unet_128 --name unet_128_mae_no_beam_ptv60_dense_manual_separate_ptv --model doseprediction3d --direction AtoB --lambda_L1 1 --dataset_mode dosepred3d --norm batch --batch_size 1 --pool_size 0 --display_port 8097 --lr 0.0002 --input_nc 7 --output_nc 1 --display_freq 10 --print_freq 1 --gpu_ids 0
