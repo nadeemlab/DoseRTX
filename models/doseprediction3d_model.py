@@ -95,6 +95,9 @@ class DosePrediction3DModel(BaseModel):
 
         #print(self.real_CT.dtype, self.real_Dose.dtype, self.real_CT.shape)
         #print(self.real_CT.shape, self.target_hist.shape, self.target_bins.shape)
+    def update_input_beam(self, beamlet_arr):
+      self.real_CT[0,1] = torch.from_numpy(beamlet_arr)
+    
     def forward(self):
         """Run forward pass; called by both functions <optimize_parameters> and <test>."""
         self.fake_Dose = self.netG(self.real_CT)  # pred_dose = netG(CT)

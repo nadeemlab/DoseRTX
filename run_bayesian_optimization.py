@@ -3,7 +3,7 @@ import numpy as np
 import SimpleITK as sitk
 from bayes_opt import BayesianOptimization
 from bayes_opt import UtilityFunction
-
+from datetime import datetime
 
 def get_gt_case(in_dir, case):
     filename = os.path.join(in_dir, case + '.npz')
@@ -38,11 +38,11 @@ def calculate_score(beam_0, beam_1, beam_2, beam_3, beam_4, beam_5, beam_6):
     planName = 'echoBeamMomLossW0_1'
     os.system('python3 ./preprocess/create_beamlet_matrix_bayes_rev3.py')
     os.system(
-        'python3 test.py --dataroot /nadeem_lab/Gourav/datasets/boo --netG unet_128 --name {} --phase test --mode eval --model doseprediction3d --input_nc 8 --output_nc 1 --direction AtoB --dataset_mode dosepred3d --norm batch'.format(
+        'python3 test.py --dataroot ./nadeem_lab/Gourav/datasets/boo --netG unet_128 --name {} --phase test --mode eval --model doseprediction3d --input_nc 8 --output_nc 1 --direction AtoB --dataset_mode dosepred3d --norm batch'.format(
             planName))
     # os.system('python3 ./openkbp-stats/dvh-stats-open-kbp.py --planName {}'.format(planName))
 
-    gt_dir = '/nadeem_lab/Gourav/datasets/boo/test'
+    gt_dir = './nadeem_lab/Gourav/datasets/boo/test'
     pred_dir = './results/{}/test_latest/npz_images'.format(planName)
     cases = ['LUNG1-002']
     gt_oar_metrics = np.zeros((len(cases), 5 + 3),
@@ -132,6 +132,9 @@ def function_to_be_optimized(beam_0, beam_1, beam_2, beam_3, beam_4, beam_5, bea
         return calculate_score(beam_0, beam_1, beam_2, beam_3, beam_4, beam_5, beam_6)
 
 
+# Start main script
+start_time = datetime.now()
+
 # set up optimisation params:
 optimisation_params = {}
 optimisation_params['ParameterNames'] = ['beam_0', 'beam_1', 'beam_2', 'beam_3', 'beam_4', 'beam_5', 'beam_6']
@@ -146,7 +149,7 @@ optimizer = BayesianOptimization(
 )
 
 # utility = UtilityFunction(kind="ucb", kappa=2.5, xi=0.0)
-beam_filename = r'/nadeem_lab/Gourav/datasets/boo/beams.txt'
+beam_filename = r'./nadeem_lab/Gourav/datasets/boo/beams.txt'
 planName = 'echoBeamMomLossW0_1'
 log_file = r'./paper_metrics/{}/log.txt'.format(planName)
 best_so_far = -10
@@ -189,7 +192,9 @@ for i in range(40):
         print('best so far: {}'.format(best_so_far), file=f)
         print('best so far beams: {}'.format(best_so_far_param), file=f)
 
-print('Best solution using bayesian optimization {}'.format(optimizer.max))
+end_time = datetime.now()
 
+print('Best solution using bayesian optimization {}'.format(optimizer.max))
+print('Total time: {}'.format(end_time - start_time))
 # for i, res in enumerate(optimizer.res):
 #     print("Iteration {}: \n\t{}".format(i, res))

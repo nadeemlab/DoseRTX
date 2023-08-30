@@ -144,16 +144,16 @@ def read_influence_matrix(in_dir, case):
     return beamlet_info
 
 
-in_dir = '/nadeem_lab/Gourav/sample_nrrd_data'
+in_dir = './nadeem_lab/Gourav/sample_nrrd_data'
 # beamlet_info_in_dir = '/data/MSKCC-Intern-2021/Dose-Echo-Data/dose_beamlet_3D_martices/influenceMatrix_beamlet_info'
-out_dir = '/nadeem_lab/Gourav/datasets/boo/test'
+out_dir = './nadeem_lab/Gourav/datasets/boo/test'
 # case_file = '../resources/train_echo_dose.txt'
 case_file = '../resources/test_echo_dose.txt'
 # cases = get_caselist(case_file)
 cases = ['LUNG1-002']
 normalize = True
 
-filename = r'/nadeem_lab/Gourav/datasets/boo/beams.txt'
+filename = r'./nadeem_lab/Gourav/datasets/boo/beams.txt'
 
 beams = loadtxt(filename, dtype=int)
 beamMaps = loadtxt(os.path.join(in_dir, 'beams_ind_' + cases[0] + '.txt'), dtype=int)
