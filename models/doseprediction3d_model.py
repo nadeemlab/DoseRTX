@@ -100,7 +100,6 @@ class DosePrediction3DModel(BaseModel):
     
     def forward(self):
         """Run forward pass; called by both functions <optimize_parameters> and <test>."""
-        print(self.real_CT[0,1].min(), self.real_CT[0,1].max())
         self.fake_Dose = self.netG(self.real_CT)  # pred_dose = netG(CT)
 
     def backward_G(self):

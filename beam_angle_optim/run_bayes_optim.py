@@ -14,7 +14,7 @@ from .get_dose_metrics import DoseMetrics
 from .bayesian_optimization  import BayesianBeamOptimizer
 import os
 import numpy as np
-import SimpleITK as sitk
+from datetime import datetime
 
 def get_casename(filepath):
   return filepath.split('/')[-1].strip('.npz')
@@ -59,6 +59,8 @@ if __name__ == '__main__':
   dset_path = os.path.join(opt.dataroot, opt.phase)
   model, dataset = get_model_dataset(opt)
   
+  start_time = datetime.now()
+  
   for i, data in enumerate(dataset):
     case_name = get_casename(data['A_paths'][0])
     print('Setting up dataset: ', case_name)
@@ -77,27 +79,26 @@ if __name__ == '__main__':
     
     print('Starting optimization:')
     best_so_far = -10
-    for i in range(40):
+    out_file = open('outputs.txt', 'w')
+    print('Iteration num,Beams,target,best_so_far', file=out_file)
+    
+    end_time = datetime.now()
+    print('Finished initial setup of dataset in: {}'.format(end_time - start_time))
+    start_time = end_time
+    
+    for i in range(num_bayes_iter):
       print('  Iteration num: ', i+1)
       
       next_point = optim.get_next_point()
       beams = [int(beam) for beam in next_point.values()]
       print('  Beams in this iteration: ', beams)
-      if check_duplicate_beams is True:
+      if check_duplicate_beams(beams) is True:
         target = -10
       else:
         curr_beamlet = beamlet.get_beamlet(beams)
-        fname = 'beamlet.npz'
-        np.savez(file=fname, BEAM=curr_beamlet)
-        # print(curr_beamlet.min(), curr_beamlet.max())
         model.update_input_beam(curr_beamlet)
-        # model.netG.eval()
         model.test()           # run inference
         pred_dose = model.get_current_visuals()['fake_Dose'].cpu().numpy()[0,0]
-        # print(pred_dose.min(), pred_dose.max())
-        # itk = sitk.GetImageFromArray(pred_dose)
-        # fname = 'pred.nrrd'
-        # sitk.WriteImage(itk, fname)
         
         pred_oar_metrics, pred_oar_metrics_max = comp_metrics.compute_dose_metrics(dose=pred_dose, oar=oar, ptv=ptv)
         
@@ -113,4 +114,8 @@ if __name__ == '__main__':
       
       best_so_far = max(target, best_so_far)
       print('    Best so far {}'.format(best_so_far))
-      
+      print('    Target: ', target)
+      print('Iter: {},{},{}, {}'.format(i+1, beams, target, best_so_far), file=out_file)
+    out_file.close()
+    end_time = datetime.now()
+    print('Finished {} iterations in: {} with best score of {}'.format(num_bayes_iter, end_time - start_time, best_so_far))
