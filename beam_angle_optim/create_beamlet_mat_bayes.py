@@ -63,7 +63,7 @@ class CreateBeamletMat():
     oar_arr[np.where(self.ptv == 1)] = 6
     
     self.crop_start, self.crop_end = get_crop_settings(oar_arr)
-    self.ptv = crop_resize_img(self.ptv, self.crop_start, self.crop_end, is_mask=False)
+    self.ptv = crop_resize_img(self.ptv, self.crop_start, self.crop_end, is_mask=True)
     
   def get_beamlet(self, beams):
     """

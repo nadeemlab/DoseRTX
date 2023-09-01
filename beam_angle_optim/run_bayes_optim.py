@@ -77,7 +77,7 @@ if __name__ == '__main__':
     
     print('Starting optimization:')
     best_so_far = -10
-    for i in range(1):
+    for i in range(40):
       print('  Iteration num: ', i+1)
       
       next_point = optim.get_next_point()
@@ -89,15 +89,15 @@ if __name__ == '__main__':
         curr_beamlet = beamlet.get_beamlet(beams)
         fname = 'beamlet.npz'
         np.savez(file=fname, BEAM=curr_beamlet)
-        print(curr_beamlet.min(), curr_beamlet.max())
+        # print(curr_beamlet.min(), curr_beamlet.max())
         model.update_input_beam(curr_beamlet)
         # model.netG.eval()
         model.test()           # run inference
         pred_dose = model.get_current_visuals()['fake_Dose'].cpu().numpy()[0,0]
-        print(pred_dose.min(), pred_dose.max())
-        itk = sitk.GetImageFromArray(pred_dose)
-        fname = 'pred.nrrd'
-        sitk.WriteImage(itk, fname)
+        # print(pred_dose.min(), pred_dose.max())
+        # itk = sitk.GetImageFromArray(pred_dose)
+        # fname = 'pred.nrrd'
+        # sitk.WriteImage(itk, fname)
         
         pred_oar_metrics, pred_oar_metrics_max = comp_metrics.compute_dose_metrics(dose=pred_dose, oar=oar, ptv=ptv)
         
