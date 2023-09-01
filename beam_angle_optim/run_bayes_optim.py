@@ -32,18 +32,8 @@ def setup_main_options():
 
   """
   parser = argparse.ArgumentParser(description='Bayesion Dose Beamlet Optimization.')
-  parser.add_argument(
-    "--plan_name", 
-    help="Name of the model.",
-    type=str,
-    default='echoBeamMomLossW0_1'
-    )
-  parser.add_argument(
-    "--bayes_iter", 
-    help="Number of Bayesian Optimization iterations.",
-    type=int,
-    default=40
-    )
+  parser.add_argument("--plan_name", help="Name of the model.", type=str,  default='echoBeamMomLossW0_1'    )
+  parser.add_argument("--bayes_iter", help="Number of Bayesian Optimization iterations.", type=int, default=40)
   
   return parser
   
@@ -52,7 +42,7 @@ if __name__ == '__main__':
   parser = setup_main_options()
   main_opts = parser.parse_known_args()[0] # Tuple of main options and other options to be parsed by TestOptions
   
-  opt = TestOptions().parse()  # get test options
+  opt = TestOptions().parse_known_args()  # get test options
   opt.name = main_opts.plan_name
   
   num_bayes_iter = main_opts.bayes_iter
