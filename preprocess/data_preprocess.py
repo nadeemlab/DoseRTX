@@ -3,7 +3,7 @@ import SimpleITK as sitk
 from pydicom import dcmread
 import numpy as np
 import cv2
-
+import argparse
 
 def read_dicom(in_dir, case):
 	dicom_names = os.listdir(os.path.join(in_dir, case))
@@ -425,80 +425,58 @@ labels = {
 }  # PTV will be stored separately as its extent is not mutually exclusive with other anatomies
 
 for idx, case in enumerate(cases):
-	print('Processing case {}: {} of {} ...'.format(case, idx+1, len(cases)))
-    
+    print('Processing case {}: {} of {} ...'.format(case, idx+1, len(cases)))
     ##read dicom CT and write it in out_dir
     img = read_dicom(in_dir, case)
-	filename = os.path.join(out_dir, case + '_CT.nrrd')
-	sitk.WriteImage(img, filename)
+    filename = os.path.join(out_dir, case + '_CT.nrrd')
+    sitk.WriteImage(img, filename)
     
     
     ##read dicom dose and write in out dir
-    dose = read_dicom_dose(in_dir, case)
+    doseImg = read_dicom_dose(in_dir, case)
     filename = os.path.join(out_dir, case + '_dose.nrrd')
-    sitk.WriteImage(dose_img, filename)
+    sitk.WriteImage(doseImg, filename)
+    #sitk.WriteImage(dose_img, filename)
+    ds = get_rtstruct_dicom(in_dir, case)  # RT struct dicom dataset with all information
+    if ds is None:
+       print('\t RT struct not found.')
+       continue
+    ref_ct = get_ref_ct(out_dir, case)	 # Ref CT to transform contour points
+    #oars = ['Cord', 'Esophagus', 'Heart', 'Lung_L', 'Lung_R', 'PTV']
+    oars = ['cord', 'esophagus', 'heart', 'lung_l', 'lung_r', 'ptv']
+    target_oars = dict.fromkeys(oars, -1)  # Will store index of target OAR contours from dicom dataset
+    new_target_oars, target_oars = get_oar_roi_indexes_modified(ds, target_oars)
+    # Check if all target oars found (several cases have renamed the structures e.g. case '38097625'
+    all_found = True
+    for k, v in target_oars.items():
+        if v == -1:
+           all_found = False
+        if all_found is False:
+           print('Case: ', case, ' One or more RT struct not found.')
+           continue
+        oar_mask = np.zeros(sitk.GetArrayFromImage(ref_ct).shape, np.uint8)
+        ptv_mask = np.zeros_like(oar_mask)
+        for k, v in target_oars.items():
+                anatomyStruc = ds['ROIContourSequence'][v]
+                anatomy_mask = np.zeros_like(oar_mask)
+        for i, elem in enumerate(anatomyStruc['ContourSequence']):  # Fill all planar contours for anatomy 'k' with corresponding label
+                points = get_contour_points(elem)
+                coords = transform_phy_pts_to_indexes(points, ref_ct)
+                anatomy_mask = fill_planar_contour_as_mask(coords, anatomy_mask)
+                if k == 'ptv':
+                        ptv_mask[np.where(anatomy_mask > 0)] = labels[k]
+                else:
+                        oar_mask[np.where(anatomy_mask > 0)] = labels[k]
+        write_image(oar_mask, out_dir, case, '_RTSTRUCTS.nrrd', ref_ct)
+        write_image(ptv_mask, out_dir, case, '_PTV.nrrd', ref_ct)
     
-                    
-	ds = get_rtstruct_dicom(in_dir, case)  # RT struct dicom dataset with all information
-	if ds is None:
-		print('\t RT struct not found.')
-		continue
-	ref_ct = get_ref_ct(out_dir, case)	 # Ref CT to transform contour points
-
-	#oars = ['Cord', 'Esophagus', 'Heart', 'Lung_L', 'Lung_R', 'PTV']
-	oars = ['cord', 'esophagus', 'heart', 'lung_l', 'lung_r', 'ptv']
-	target_oars = dict.fromkeys(oars, -1)  # Will store index of target OAR contours from dicom dataset
-	new_target_oars, target_oars = get_oar_roi_indexes_modified(ds, target_oars)
-
-	# Check if all target oars found (several cases have renamed the structures e.g. case '38097625'
-	all_found = True
-	for k, v in target_oars.items():
-		if v == -1:
-			all_found = False
-
-	if all_found is False:
-		print('Case: ', case, ' One or more RT struct not found.')
-		continue
-
-	oar_mask = np.zeros(sitk.GetArrayFromImage(ref_ct).shape, np.uint8)
-	ptv_mask = np.zeros_like(oar_mask)
-
-	for k, v in target_oars.items():
-		anatomyStruc = ds['ROIContourSequence'][v]
-		anatomy_mask = np.zeros_like(oar_mask)
-
-		#pts_img = np.zeros((oar_mask.shape[1], oar_mask.shape[2], 3), dtype=np.uint8)
-
-		for i, elem in enumerate(anatomyStruc['ContourSequence']):  # Fill all planar contours for anatomy 'k' with corresponding label
-			points = get_contour_points(elem)
-
-			coords = transform_phy_pts_to_indexes(points, ref_ct)
-			anatomy_mask = fill_planar_contour_as_mask(coords, anatomy_mask)
-			# if coords[0][2] == 65 and k == 'Lung_R':
-			# 	print(i, elem)
-			# 	with open(str(i) + '_Lung_R_coords.txt', 'w') as f:
-			# 		for row in coords:
-			# 			print(row, file=f)
-			# 			pts_img = cv2.circle(pts_img, center=(row[0], row[1]), radius=1,color=(0,0,255), thickness=-1)
-
-		# if k == 'Lung_R':
-		# 	cv2.imwrite('Lung_R.png', pts_img)
-
-		if k == 'ptv':
-			ptv_mask[np.where(anatomy_mask > 0)] = labels[k]
-		else:
-			oar_mask[np.where(anatomy_mask > 0)] = labels[k]
-
-	write_image(oar_mask, out_dir, case, '_RTSTRUCTS.nrrd', ref_ct)
-	write_image(ptv_mask, out_dir, case, '_PTV.nrrd', ref_ct)
-    
-    dose_resampled = resample(dose, ref_ct)
+    dose_resampled = resample(doseImg, ref_ct)
     filename = os.path.join(in_dir, case + '_dose_resampled.nrrd')
     sitk.WriteImage(dose_resampled, filename)
     ##process all the nrrd files
     try:
-		#print('Processing case {}: {} of {} ...'.format(case, idx+1, len(cases)))
-		process_case(in_dir, out_dir, case)
-	except:
-		print('Processing of case {} failed'.format(case))
-		pass
+            #print('Processing case {}: {} of {} ...'.format(case, idx+1, len(cases)))
+            process_case(in_dir, out_dir, case)
+    except:
+            print('Processing of case {} failed'.format(case))
+            pass
