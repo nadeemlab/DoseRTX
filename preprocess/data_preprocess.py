@@ -4,7 +4,7 @@ from pydicom import dcmread
 import numpy as np
 import cv2
 import argparse
-
+import pdb
 def read_dicom(in_dir, case):
 	dicom_names = os.listdir(os.path.join(in_dir, case))
 	dicom_paths = []
@@ -52,6 +52,7 @@ def get_rtstruct_dicom(in_dir, case):
 
 	rt_file = None
 	files = os.listdir(os.path.join(in_dir, case))
+	#pdb.set_trace()
 	for file in files:
 		if file[:2] == 'RS':
 			rt_file = file
@@ -437,6 +438,7 @@ for idx, case in enumerate(cases):
     filename = os.path.join(out_dir, case + '_dose.nrrd')
     sitk.WriteImage(doseImg, filename)
     #sitk.WriteImage(dose_img, filename)
+    #pdb.set_trace()
     ds = get_rtstruct_dicom(in_dir, case)  # RT struct dicom dataset with all information
     if ds is None:
        print('\t RT struct not found.')
@@ -449,26 +451,27 @@ for idx, case in enumerate(cases):
     # Check if all target oars found (several cases have renamed the structures e.g. case '38097625'
     all_found = True
     for k, v in target_oars.items():
+        #pdb.set_trace()
         if v == -1:
            all_found = False
         if all_found is False:
            print('Case: ', case, ' One or more RT struct not found.')
            continue
-        oar_mask = np.zeros(sitk.GetArrayFromImage(ref_ct).shape, np.uint8)
-        ptv_mask = np.zeros_like(oar_mask)
-        for k, v in target_oars.items():
-                anatomyStruc = ds['ROIContourSequence'][v]
-                anatomy_mask = np.zeros_like(oar_mask)
-        for i, elem in enumerate(anatomyStruc['ContourSequence']):  # Fill all planar contours for anatomy 'k' with corresponding label
-                points = get_contour_points(elem)
-                coords = transform_phy_pts_to_indexes(points, ref_ct)
-                anatomy_mask = fill_planar_contour_as_mask(coords, anatomy_mask)
-                if k == 'ptv':
-                        ptv_mask[np.where(anatomy_mask > 0)] = labels[k]
-                else:
-                        oar_mask[np.where(anatomy_mask > 0)] = labels[k]
-        write_image(oar_mask, out_dir, case, '_RTSTRUCTS.nrrd', ref_ct)
-        write_image(ptv_mask, out_dir, case, '_PTV.nrrd', ref_ct)
+    oar_mask = np.zeros(sitk.GetArrayFromImage(ref_ct).shape, np.uint8)
+    ptv_mask = np.zeros_like(oar_mask)
+    for k, v in target_oars.items():
+        anatomyStruc = ds['ROIContourSequence'][v]
+        anatomy_mask = np.zeros_like(oar_mask)
+    for i, elem in enumerate(anatomyStruc['ContourSequence']):  # Fill all planar contours for anatomy 'k' with corresponding label
+        points = get_contour_points(elem)
+        coords = transform_phy_pts_to_indexes(points, ref_ct)
+        anatomy_mask = fill_planar_contour_as_mask(coords, anatomy_mask)
+        if k == 'ptv':
+           ptv_mask[np.where(anatomy_mask > 0)] = labels[k]
+        else:
+           oar_mask[np.where(anatomy_mask > 0)] = labels[k]
+    write_image(oar_mask, out_dir, case, '_RTSTRUCTS.nrrd', ref_ct)
+    write_image(ptv_mask, out_dir, case, '_PTV.nrrd', ref_ct)
     
     dose_resampled = resample(doseImg, ref_ct)
     filename = os.path.join(in_dir, case + '_dose_resampled.nrrd')
