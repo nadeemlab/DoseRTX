@@ -5,7 +5,7 @@ dataclasses==0.8
 decorator==4.4.2
 dominate==2.6.0
 et-xmlfile==1.1.0
-idna==2.10
+idna==3.7
 imageio==2.9.0
 jsonpatch==1.32
 jsonpointer==2.1
