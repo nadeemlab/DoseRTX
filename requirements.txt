@@ -27,7 +27,7 @@ scipy==1.11.1
 SimpleITK==2.0.2
 six==1.16.0
 tifffile==2020.9.3
-torch==2.6.0
+torch==2.7.1
 torchfile==0.1.0
 torchvision==0.9.1
 tornado==6.5.1
