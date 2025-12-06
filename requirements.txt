@@ -32,6 +32,6 @@ torchfile==0.1.0
 torchvision==0.9.1
 tornado==6.5.1
 typing-extensions==3.10.0.0
-urllib3==2.5.0
+urllib3==2.6.0
 visdom==0.1.8.9
 websocket-client==1.0.1
