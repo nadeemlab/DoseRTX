@@ -1,4 +1,4 @@
-certifi==2024.7.4
+certifi==2026.10.19
 chardet==4.0.0
 cycler==0.10.0
 dataclasses==0.8
